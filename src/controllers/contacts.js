@@ -6,6 +6,8 @@ import {
   replaceContact,
 } from '../services/contacts.js';
 import createHttpError from 'http-errors';
+import { parsPaginationParams } from '../utils/parsePaginationParams.js';
+import { parseSortParams } from '../utils/parseSortParams.js';
 
 export const getContact = async (req, res, next) => {
   const { contactId } = req.params;
@@ -23,7 +25,10 @@ export const getContact = async (req, res, next) => {
 };
 
 export const getContacts = async (req, res, next) => {
-  const contacts = await contactsService.getAllContacts();
+  const { page, perPage } = parsPaginationParams(req.query);
+  const { sortBy, sortOrder } = parseSortParams(req.query);
+
+  const contacts = await contactsService.getAllContacts(page, perPage, sortBy, sortOrder);
 
   res.json({
     status: 200,
@@ -33,6 +38,9 @@ export const getContacts = async (req, res, next) => {
 };
 
 export const createContactController = async (req, res, next) => {
+  if (typeof req.body.name === 'undefined') {
+    throw new createHttpError.BadRequest('Name is required');
+  }
   const contacts = await createContact(req.body);
 
   res.status(201).json({
