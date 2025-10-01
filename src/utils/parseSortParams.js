@@ -1,34 +1,16 @@
 function parseSortBy(value) {
-  if (typeof value === 'undefined') {
-    return '_id';
-  }
-
   const keys = ['_id', 'isFavourite', 'contactType', 'name'];
-
-  if (keys.includes(value) !== true) {
-    return '_id';
-  }
-
-  return value;
+  return keys.includes(value) ? value : '_id';
 }
 
 function parseSortOrder(value) {
-  if (typeof value === 'undefined') {
-    return 'asc';
-  }
-
-  if (value !== 'asc' && value !== 'desc') {
-    return 'asc';
-  }
-
-  return value;
+return value === 'desc' ? -1 : 1;
 }
 
 export function parseSortParams(query) {
-  const { sortBy, sortOrder } = query;
-
-  const parseSortByParams = parseSortBy(sortBy);
-  const parseSortOrderParams = parseSortOrder(sortOrder);
-
-  return { sortBy: parseSortByParams, sortOrder: parseSortOrderParams };
+const { sortBy, sortOrder } = query;
+return {
+  sortBy: parseSortBy(sortBy),
+  sortOrder: parseSortOrder(sortOrder),
+};
 }
