@@ -46,7 +46,7 @@ export async function logoutUserController(req, res) {
   res.clearCookie('sessionId');
   res.clearCookie('refreshToken');
 
-  res.send({ status: 200, message: 'User logout succsessfully' });
+  res.sendStatus(204);
 }
 
 export async function refreshSessionController(req, res) {
