@@ -1,4 +1,5 @@
 export function errorHandler(error, req, res, next) {
+  console.error(error);
  if (error.status) {
    return res.status(error.status).json({
      status: error.status,

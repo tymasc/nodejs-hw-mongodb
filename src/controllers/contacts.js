@@ -1,4 +1,6 @@
 import * as contactsService from '../services/contacts.js';
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
 import {
   createContact,
   deleteContact,
@@ -8,6 +10,8 @@ import {
 import createHttpError from 'http-errors';
 import { parsPaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
+import { uploadToCloudinary } from '../utils/uploadToCloudinary.js';
+import { getEnvVar } from '../utils/getEnvVar.js';
 
 export const getContact = async (req, res, next) => {
   const { contactId } = req.params;
@@ -48,11 +52,27 @@ export const getContacts = async (req, res, next) => {
 };
 
 export const createContactController = async (req, res, next) => {
+  let photo;
+
+  if (getEnvVar('UPLOAD_CLOUDINARY') === 'true') {
+    const response = await uploadToCloudinary(req.file.path);
+    await fs.unlink(req.file.path);
+
+    photo = response.secure_url;
+  } else {
+    photo = `http://localhost:3000/photos/${req.file.filename}`;
+    await fs.rename(
+      req.file.path,
+      path.resolve('src/uploads', req.file.filename),
+    );
+  }
+
   if (typeof req.body.name === 'undefined') {
     throw new createHttpError.BadRequest('Name is required');
   }
   const contacts = await createContact({
     ...req.body,
+    photo,
     userId: req.user.id,
   });
 

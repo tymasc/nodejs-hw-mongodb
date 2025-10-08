@@ -9,6 +9,7 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import cookieParser from 'cookie-parser';
 import { auth } from './middlewares/auth.js';
+import path from 'node:path';
 
 export const setupServer = async () => {
   const app = express();
@@ -16,11 +17,13 @@ export const setupServer = async () => {
   app.use(express.json());
   app.use(cookieParser());
 
+  app.use('/photos', express.static(path.resolve('src', 'uploads', 'photos')));
+
   app.use(cors());
   app.use(pino());
 
   app.use('/auth', authRouters);
-  app.use('/contacts',auth ,contactsRouter);
+  app.use('/contacts', auth, contactsRouter);
 
   app.use(notFoundHandler);
 

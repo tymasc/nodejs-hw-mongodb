@@ -10,7 +10,11 @@ import {
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { isValidId } from '../middlewares/isValidId.js';
 import { validateBody } from '../middlewares/validateBody.js';
-import { contactSchema, updateContactSchema } from '../../validation/contact.js';
+import {
+  contactSchema,
+  updateContactSchema,
+} from '../../validation/contact.js';
+import { upload } from '../middlewares/upload.js';
 
 const router = express.Router();
 
@@ -18,6 +22,7 @@ router.get('/', ctrlWrapper(getContacts));
 router.get('/:contactId', isValidId, ctrlWrapper(getContact));
 router.post(
   '/',
+  upload.single('photo'),
   validateBody(contactSchema),
   ctrlWrapper(createContactController),
 );
@@ -30,6 +35,7 @@ router.put(
 );
 router.patch(
   '/:contactId',
+  upload.single('photo'),
   isValidId,
   validateBody(updateContactSchema),
   ctrlWrapper(patchContactController),
