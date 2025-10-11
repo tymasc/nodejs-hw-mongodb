@@ -52,10 +52,11 @@ export const getContacts = async (req, res, next) => {
 export const createContactController = async (req, res, next) => {
   let photo;
 
+  if (req.file) {
     const response = await uploadToCloudinary(req.file.path);
-    await fs.unlink(req.file.path);
-
+    await fs.unlink(req.file.path); // удаляем временный файл
     photo = response.secure_url;
+  }
 
   if (typeof req.body.name === 'undefined') {
     throw new createHttpError.BadRequest('Name is required');
