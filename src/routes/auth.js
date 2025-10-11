@@ -14,6 +14,7 @@ import {
   requestPasswordResetController,
   resetPasswordController,
 } from '../controllers/auth.js';
+import { upload } from '../middlewares/upload.js';
 
 const router = express.Router();
 
@@ -23,11 +24,13 @@ router.post('/logout', logoutUserController);
 router.post('/refresh', refreshSessionController);
 router.post(
   '/send-reset-email',
+  upload.none(),
   validateBody(requsetPasswordSchema),
   requestPasswordResetController,
 );
 router.post(
   '/reset-pwd',
+  upload.none(),
   validateBody(resetPasswordSchema),
   resetPasswordController,
 );
