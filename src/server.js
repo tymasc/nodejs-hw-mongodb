@@ -10,8 +10,14 @@ import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import cookieParser from 'cookie-parser';
 import { auth } from './middlewares/auth.js';
 import path from 'node:path';
+import swaggerUiExpress from 'swagger-ui-express';
+import * as fs from 'node:fs';
 
 export const setupServer = async () => {
+  const SWAGGER_DOCUMENT = JSON.parse(
+    fs.readFileSync(path.join('docs', 'swagger.json')),
+  );
+
   const app = express();
 
   app.use(express.json());
@@ -24,6 +30,11 @@ export const setupServer = async () => {
 
   app.use('/auth', authRouters);
   app.use('/contacts', auth, contactsRouter);
+  app.use(
+    '/api-docs',
+    swaggerUiExpress.serve,
+    swaggerUiExpress.setup(SWAGGER_DOCUMENT),
+  );
 
   app.use(notFoundHandler);
 

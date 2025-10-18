@@ -5,7 +5,10 @@ import {
   refreshSession,
   requestPasswordReset,
   resetPassword,
+  loginOrRegister,
 } from '../services/auth.js';
+import { getOAuthURL } from '../utils/googleOAuth.js';
+import { validateCode } from '../utils/googleOAuth.js';
 
 export async function registerUserController(req, res) {
   const user = await registreUser(req.body);
@@ -87,4 +90,37 @@ export async function requestPasswordResetController(req, res) {
 export async function resetPasswordController(req, res) {
   await resetPassword(req.body.token, req.body.password);
   res.json({ status: 200, message: 'Password has been successfully reset.' });
+}
+
+// Google Auth
+
+export function getOAuthUrlController(req, res) {
+  const url = getOAuthURL();
+  res.json({
+    status: 200,
+    messgae: 'Succsessfully get OAuth url',
+    data: { oauth_url: url },
+  });
+}
+
+export async function confirmOAuthController(req, res) {
+  const ticket = await validateCode(req.body.code);
+
+  console.log({ticket});
+
+  const session = await loginOrRegister(
+    ticket.payload.email,
+    ticket.payload.name,
+  );
+
+  res.cookie('refreshToken', session.refreshToken, {
+    httpOnly: true,
+    expires: session.refreshTokenValidUntil,
+  });
+
+  res.json({
+    status: 200,
+    message: 'Login vis OAuth successfully',
+    data: { accessToken: session.accessToken },
+  });
 }

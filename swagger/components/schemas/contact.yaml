@@ -1,0 +1,55 @@
+type: object
+required:
+  - _id
+  - name
+  - phoneNumber
+  - email
+  - isFavourite
+  - contactType
+  - photo
+  - userId
+  - createdAt
+  - updatedAt
+properties:
+  _id:
+    type: string
+    description: Contact id
+    example: 68efd432d72be1aa681721e2
+  name:
+    type: string
+    description: Contact name
+    example: Jace Kolan
+  phoneNumber:
+    type: string
+    description: Contact phone number
+    example: "+380123456789"
+  email:
+    type: string
+    description: Contact email
+    example: "jacekolan@gmail.com"
+  isFavourite:
+    type: boolean
+    description: Contact favorite
+    default: false
+    example: true
+  contactType:
+    type: string
+    description: Contact type
+    default: false
+    example: true
+  photo:
+    type: string
+    description: Contact photo
+    example: https://res.cloudinary.com/drckammvk/image/upload/v1760220235/fqigpu4bksr2pikphszc.png
+  userId:
+    type: string
+    description: Contact userId
+    example: "68e699fef4d2371698c9fbf5"
+  createdAt:
+    type: string
+    format: date-time
+    example: 2025-10-08T18:21:12.158+00:00
+  updatedAt:
+    type: string
+    format: date-time
+    example: 2025-10-08T19:23:17.158+00:00
