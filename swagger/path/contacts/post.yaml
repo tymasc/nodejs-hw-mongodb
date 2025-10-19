@@ -35,6 +35,10 @@ requestBody:
             enum: ['work', 'home', 'personal']
             default: "personal"
             example: "work"
+          photo:
+            type: binary
+            description: Contact photo
+            example: https://res.cloudinary.com/drckammvk/image/upload/v1760220235/fqigpu4bksr2pikphszc.png
 responses:
   '201':
     description: Successfully create contact

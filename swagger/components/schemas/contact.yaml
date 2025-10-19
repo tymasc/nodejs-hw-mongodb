@@ -38,7 +38,7 @@ properties:
     default: false
     example: true
   photo:
-    type: binary
+    type: string
     description: Contact photo
     example: https://res.cloudinary.com/drckammvk/image/upload/v1760220235/fqigpu4bksr2pikphszc.png
   userId:
