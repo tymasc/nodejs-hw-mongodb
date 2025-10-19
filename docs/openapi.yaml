@@ -11,6 +11,7 @@ tags:
     description: Operation with contacts
 servers:
   - url: http://127.0.0.1:4000
+  - url: https://nodejs-hw-mongodb-0kz6.onrender.com
 paths:
   /contacts/{id}:
     get:

@@ -12,6 +12,9 @@
   "servers": [
     {
       "url": "http://127.0.0.1:4000"
+    },
+    {
+      "url": "https://nodejs-hw-mongodb-0kz6.onrender.com"
     }
   ],
   "tags": [
@@ -524,7 +527,7 @@
             "example": true
           },
           "photo": {
-            "type": "string",
+            "type": "binary",
             "description": "Contact photo",
             "example": "https://res.cloudinary.com/drckammvk/image/upload/v1760220235/fqigpu4bksr2pikphszc.png"
           },
