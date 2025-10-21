@@ -160,6 +160,12 @@
                     ],
                     "default": "personal",
                     "example": "work"
+                  },
+                  "photo": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Contact photo",
+                    "example": "https://res.cloudinary.com/drckammvk/image/upload/v1760220235/fqigpu4bksr2pikphszc.png"
                   }
                 }
               }
